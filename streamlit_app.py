@@ -5,9 +5,7 @@ from snowflake.snowpark.functions import col
 
 # Write directly to the app
 st.title(":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
-st.write(
-    """Choose the fruits you want in your custom Smoothie!"""
-)
+st.write("""Choose the fruits you want in your custom Smoothie!""")
 
 name_on_order = st.text_input('Name on Smoothie')
 st.write('The name on your Smoothie will be:', name_on_order)
@@ -24,7 +22,7 @@ my_dataframe = (
 ingredients_list = st.multiselect(
     'choose up to 5 ingredients:',
     my_dataframe,
-    max_selections = 5
+    max_selections=5
 )
 
 if ingredients_list:
@@ -37,8 +35,8 @@ if ingredients_list:
     st.write(ingredients_string)
 
     my_insert_stmt = """
-        INSERT INTO smoothies.public.orders (ingredients,NAME_ON_ORDER)
-        VALUES ('""" + ingredients_string + """','""" + name_on_order+ """')
+        INSERT INTO smoothies.public.orders (ingredients, NAME_ON_ORDER)
+        VALUES ('""" + ingredients_string + """', '""" + name_on_order + """')
     """
 
     st.write(my_insert_stmt)
@@ -49,6 +47,14 @@ if ingredients_list:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered!', icon="✅")
 
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-#st.text(smoothiefroot_response.json())
-sf_df = st.dataframe(data = smoothiefroot_response.json()),use_container_width=True
+# -----------------------------
+# External API Call
+# -----------------------------
+smoothiefroot_response = requests.get(
+    "https://my.smoothiefroot.com/api/fruit/watermelon"
+)
+
+st.dataframe(
+    data=smoothiefroot_response.json(),
+    use_container_width=True
+)
