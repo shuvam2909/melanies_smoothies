@@ -21,7 +21,7 @@ my_dataframe = (
 #st.dataframe(data=my_dataframe,use_container_width=True)
 #st.stop()
 
-pd_df = y_dataframe.to_pandas()
+pd_df = my_dataframe.to_pandas()
 st.dataframe(pd_df)
 st.stop()
 
